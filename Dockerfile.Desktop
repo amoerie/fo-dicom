@@ -1,4 +1,18 @@
+# escape=`
+
 FROM mcr.microsoft.com/dotnet/framework/sdk:4.8
+
+# Install Windows 8.1 SDK and other tooling necessary to build Fellow Oak DICOM
+ADD https://aka.ms/vs/16/release/vs_buildtools.exe C:\Installers\vs_buildtools_2019.exe
+
+# Install everything the Visual Studio 2019 Build Tools have to offer
+RUN C:\installers\vs_buildtools_2019.exe --quiet --wait --norestart --nocache --includeOptional `
+    --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools `
+    --add Microsoft.VisualStudio.Workload.NetCoreBuildTools `
+    --add Microsoft.VisualStudio.Workload.VCTools `
+    --add Microsoft.VisualStudio.Workload.UniversalBuildTools `
+    --add Microsoft.VisualStudio.Workload.XamarinBuildTools `
+    --add Microsoft.VisualStudio.Workload.WebBuildTools
 
 WORKDIR /workdir
 
@@ -10,9 +24,9 @@ COPY Benchmarks/Desktop/DICOM.Benchmarks.Desktop.csproj ./Benchmarks/Desktop/
 COPY Drawing/NetCore/DICOM.Drawing.NetCore.csproj ./Drawing/NetCore/
 COPY Logging/Log4Net.Desktop/DICOM.Log4Net.Desktop.csproj ./Logging/Log4Net.Desktop/
 COPY Logging/MetroLog/DICOM.MetroLog.csproj ./Logging/MetroLog/
-COPY Logging/NLog.Desktop/DICOM.NLog.Desktop.csproj ./Logging/NLog/
+COPY Logging/NLog.Desktop/DICOM.NLog.Desktop.csproj ./Logging/NLog.Desktop/
 COPY Logging/Serilog/DICOM.Serilog.csproj ./Logging/Serilog/
-COPY Logging/Serilog.Desktop/DICOM.Serilog.Desktop.csproj ./Logging/Serilog/
+COPY Logging/Serilog.Desktop/DICOM.Serilog.Desktop.csproj ./Logging/Serilog.Desktop/
 COPY Platform/Android/DICOM.Android.csproj ./Platform/Android/
 COPY Platform/Desktop/DICOM.Desktop.csproj ./Platform/Desktop/
 COPY Platform/Hololens/DICOM.Hololens.csproj ./Platform/Hololens/
@@ -49,10 +63,10 @@ COPY Native/Universal/libijg8.Universal.vcxproj ./Native/Universal/
 
 # copy packages.config files
 COPY Benchmarks/Desktop/packages.config ./Benchmarks/Desktop/
-COPY Logging/Log4Net.Desktop/packages.config ./Logging/Log4Net/
+COPY Logging/Log4Net.Desktop/packages.config ./Logging/Log4Net.Desktop/
 COPY Logging/MetroLog/packages.config ./Logging/MetroLog/
-COPY Logging/NLog.Desktop/packages.config ./Logging/NLog/
-COPY Logging/Serilog.Desktop/packages.config ./Logging/Serilog/
+COPY Logging/NLog.Desktop/packages.config ./Logging/NLog.Desktop/
+COPY Logging/Serilog.Desktop/packages.config ./Logging/Serilog.Desktop/
 COPY Platform/Android/packages.config ./Platform/Android/
 COPY Platform/iOS/packages.config ./Platform/iOS/
 COPY Platform/Mono/packages.config ./Platform/Mono/

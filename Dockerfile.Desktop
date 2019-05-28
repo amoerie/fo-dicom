@@ -67,7 +67,7 @@ RUN nuget restore DICOM.Desktop.sln
 COPY . .
 
 # compile c#
-RUN msbuild DICOM.Desktop.sln -target:Rebuild -p:Configuration=Release -p:OutputPath=C:\workdir\output
+RUN msbuild DICOM.Desktop.sln -target:Rebuild -p:Configuration=Release -p:OutputPath=C:\workdir\output -p:ContinueOnError=false
 
 # run tests
 RUN ./packages/xunit.runner.console.2.4.1/tools/net472/xunit.console.exe "C:/workdir/output/DICOM [Unit Tests].dll"

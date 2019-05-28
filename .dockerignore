@@ -1,0 +1,16 @@
+﻿# VCS related files
+.git
+.github
+
+# IDE related files
+.idea
+.vs
+.nuget
+.vscode
+
+# everything under node_modules, that would be huge
+packages
+
+# any generated .NET build artifacts in development
+**/bin/**/*
+**/obj/**/*

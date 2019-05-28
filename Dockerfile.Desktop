@@ -1,0 +1,73 @@
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8
+
+WORKDIR /workdir
+
+# copy solution file
+COPY DICOM.Desktop.sln ./
+
+# copy .csproj files
+COPY Benchmarks/Desktop/DICOM.Benchmarks.Desktop.csproj ./Benchmarks/Desktop/
+COPY Drawing/NetCore/DICOM.Drawing.NetCore.csproj ./Drawing/NetCore/
+COPY Logging/Log4Net.Desktop/DICOM.Log4Net.Desktop.csproj ./Logging/Log4Net.Desktop/
+COPY Logging/MetroLog/DICOM.MetroLog.csproj ./Logging/MetroLog/
+COPY Logging/NLog.Desktop/DICOM.NLog.Desktop.csproj ./Logging/NLog/
+COPY Logging/Serilog/DICOM.Serilog.csproj ./Logging/Serilog/
+COPY Logging/Serilog.Desktop/DICOM.Serilog.Desktop.csproj ./Logging/Serilog/
+COPY Platform/Android/DICOM.Android.csproj ./Platform/Android/
+COPY Platform/Desktop/DICOM.Desktop.csproj ./Platform/Desktop/
+COPY Platform/Hololens/DICOM.Hololens.csproj ./Platform/Hololens/
+COPY Platform/iOS/DICOM.iOS.csproj ./Platform/iOS/
+COPY Platform/Mono/DICOM.Mono.csproj ./Platform/Mono/
+COPY Platform/NetCore/DICOM.NetCore.csproj ./Platform/NetCore/
+COPY Platform/Portable/DICOM.Portable.csproj ./Platform/Portable/
+COPY Platform/Unity/DICOM.Unity.csproj ./Platform/Unity/
+COPY Platform/Unity2017/DICOM.Unity2017.csproj ./Platform/Unity2017/
+COPY Platform/Universal/DICOM.Universal.csproj ./Platform/Universal/
+COPY Serialization/Json/DICOM.Json.csproj ./Serialization/Json/
+COPY Tests/Desktop/DICOM.Tests.Desktop.csproj ./Tests/Desktop/
+COPY Tests/NetCore/DICOM.Tests.NetCore.csproj ./Tests/NetCore/
+COPY Tests/Universal/DICOM.Tests.Universal.csproj ./Tests/Universal/
+COPY ["Tools/DICOM Dump/DICOM Dump.csproj", "./Tools/DICOM Dump/"]
+COPY ["Tools/DICOM Dump/DICOM Dump.Mono.csproj", "./Tools/DICOM Dump/"]
+
+# copy .shproj files
+COPY DICOM/DICOM.Shared.shproj ./DICOM/
+
+# copy .vcxproj files
+COPY Native/Desktop/DICOM.Native.vcxproj ./Native/Desktop/
+COPY Native/Desktop/DICOM.Native64.vcxproj ./Native/Desktop/
+COPY Native/Desktop/libijg12.x64.vcxproj ./Native/Desktop/
+COPY Native/Desktop/libijg12.x86.vcxproj ./Native/Desktop/
+COPY Native/Desktop/libijg16.x64.vcxproj ./Native/Desktop/
+COPY Native/Desktop/libijg16.x86.vcxproj ./Native/Desktop/
+COPY Native/Desktop/libijg8.x64.vcxproj ./Native/Desktop/
+COPY Native/Desktop/libijg8.x86.vcxproj ./Native/Desktop/
+COPY Native/Universal/DICOM.Native.Universal.vcxproj ./Native/Universal/
+COPY Native/Universal/libijg12.Universal.vcxproj ./Native/Universal/
+COPY Native/Universal/libijg16.Universal.vcxproj ./Native/Universal/
+COPY Native/Universal/libijg8.Universal.vcxproj ./Native/Universal/
+
+# copy packages.config files
+COPY Benchmarks/Desktop/packages.config ./Benchmarks/Desktop/
+COPY Logging/Log4Net.Desktop/packages.config ./Logging/Log4Net/
+COPY Logging/MetroLog/packages.config ./Logging/MetroLog/
+COPY Logging/NLog.Desktop/packages.config ./Logging/NLog/
+COPY Logging/Serilog.Desktop/packages.config ./Logging/Serilog/
+COPY Platform/Android/packages.config ./Platform/Android/
+COPY Platform/iOS/packages.config ./Platform/iOS/
+COPY Platform/Mono/packages.config ./Platform/Mono/
+COPY Platform/Unity2017/packages.config ./Platform/Unity2017/
+COPY Serialization/Json/packages.config ./Serialization/Json/
+COPY Tests/Desktop/packages.config ./Tests/Desktop/
+
+# restore nuget packages
+RUN nuget restore DICOM.Desktop.sln
+
+# copy remaining source code
+COPY . .
+
+# compile c#
+RUN msbuild DICOM.Desktop.sln -target:Rebuild -p:Configuration=Release -p:OutputPath=C:\workdir\output
+
+# run tests
+RUN ./packages/xunit.runner.console.2.4.1/tools/net472/xunit.console.exe "C:/workdir/output/DICOM [Unit Tests].dll"

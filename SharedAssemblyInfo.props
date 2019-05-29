@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <Company>fo-dicom</Company>
+    <Product>fo-dicom</Product>
+    <Copyright>Copyright � fo-dicom contributors 2012-2019</Copyright>
+    <Trademark></Trademark>
+    <Culture></Culture>
+    <Version>4.0.1</Version>
+    <FileVersion>4.0.1.1</FileVersion>
+    <ProductVersion>4.0.1.1</ProductVersion>
+    <InformationalVersion>4.0.1.1</InformationalVersion>
+  </PropertyGroup>
+</Project>

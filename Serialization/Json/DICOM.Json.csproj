@@ -4,9 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\DICOM\fo-dicom.snk</AssemblyOriginatorKeyFile>
-    <RootNamespace>Dicom</RootNamespace>
-    <AssemblyName>Dicom.Serialization</AssemblyName>
-    <AssemblyTitle>Dicom.Serialization</AssemblyTitle>
+    <RootNamespace>Dicom.Serialization</RootNamespace>
+    <AssemblyName>Dicom.Json</AssemblyName>
+    <AssemblyTitle>Dicom.Json</AssemblyTitle>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -15,6 +15,10 @@
   <Import Project="..\..\DICOM\DICOM.Shared.projitems" Label="Shared" />
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Platform\Portable\DICOM.Portable.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-   </ItemGroup>
+  </ItemGroup>
 </Project>

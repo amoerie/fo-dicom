@@ -11,6 +11,7 @@ pool:
 
 variables:
   solution: 'DICOM.Desktop.sln'
+  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
